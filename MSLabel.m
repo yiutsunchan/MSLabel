@@ -11,7 +11,7 @@
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
 // small buffer to allow for characters like g,y etc 
-static const int kAlignmentBuffer = 5;
+static const NSInteger kAlignmentBuffer = 5;
 
 @interface MSLabel ()
 
@@ -22,7 +22,7 @@ static const int kAlignmentBuffer = 5;
 - (NSString *)lastWordInString:(NSString *)string;
 
 
-@property (nonatomic, assign) int drawX;
+@property (nonatomic, assign) NSInteger drawX;
 
 @end
 
@@ -68,12 +68,12 @@ static const int kAlignmentBuffer = 5;
         [self.textColor set];   
     }
     
-    int numLines = slicedStrings.count;
+    NSInteger numLines = slicedStrings.count;
     if (numLines > self.numberOfLines && self.numberOfLines != 0) {
         numLines = self.numberOfLines;
     }
     
-    int drawY = (self.frame.size.height / 2 - (_lineHeight * numLines) / 2) - kAlignmentBuffer;    
+    NSInteger drawY = (self.frame.size.height / 2 - (_lineHeight * numLines) / 2) - kAlignmentBuffer;
     
     for (int i = 0; i < numLines; i++) {        
         
@@ -109,9 +109,9 @@ static const int kAlignmentBuffer = 5;
         
         // calculate draw X based on textAlignmentment
         
-        if (self.textAlignment == UITextAlignmentCenter) {
+        if (self.textAlignment == NSTextAlignmentCenter) {
             drawX = floorf((self.frame.size.width - [line sizeWithFont:self.font].width) / 2);
-        } else if (self.textAlignment == UITextAlignmentRight) {
+        } else if (self.textAlignment == NSTextAlignmentRight) {
             drawX = (self.frame.size.width - [line sizeWithFont:self.font].width);
         }
         
@@ -223,7 +223,7 @@ static const int kAlignmentBuffer = 5;
     
     NSMutableArray *outputLines = [[[NSMutableArray alloc] init] autorelease];
     
-    int lineNumber = 0;
+    NSInteger lineNumber = 0;
     
     for (id word in words) {
         if ([outputLines count] == 0) {
