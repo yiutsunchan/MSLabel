@@ -10,7 +10,7 @@
 
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
-// small buffer to allow for characters like g,y etc 
+// small buffer to allow for characters like g,y etc
 static const NSInteger kAlignmentBuffer = 5;
 
 @interface MSLabel ()
@@ -58,14 +58,14 @@ static const NSInteger kAlignmentBuffer = 5;
 
 #pragma mark - Drawing
 
-- (void)drawTextInRect:(CGRect)rect 
+- (void)drawTextInRect:(CGRect)rect
 {
     NSArray *slicedStrings = [self stringsFromText:self.text];
     if (self.highlighted) {
-        [self.highlightedTextColor set]; 
+        [self.highlightedTextColor set];
     }
     else {
-        [self.textColor set];   
+        [self.textColor set];
     }
     
     NSInteger numLines = slicedStrings.count;
@@ -75,7 +75,7 @@ static const NSInteger kAlignmentBuffer = 5;
     
     NSInteger drawY = (self.frame.size.height / 2 - (_lineHeight * numLines) / 2) - kAlignmentBuffer;
     
-    for (int i = 0; i < numLines; i++) {        
+    for (int i = 0; i < numLines; i++) {
         
         NSString *line = [slicedStrings objectAtIndex:i];
         
@@ -89,7 +89,7 @@ static const NSInteger kAlignmentBuffer = 5;
             case MSLabelVerticalAlignmentMiddle:
             {
                 if(i > 0) {
-                    drawY += _lineHeight;            
+                    drawY += _lineHeight;
                 }
             }
                 break;
@@ -144,11 +144,11 @@ static const NSInteger kAlignmentBuffer = 5;
 
 #pragma mark - Properties
 
-- (void)setLineHeight:(int)lineHeight 
+- (void)setLineHeight:(int)lineHeight
 {
-    if (_lineHeight == lineHeight) 
-    { 
-        return; 
+    if (_lineHeight == lineHeight)
+    {
+        return;
     }
     
     _lineHeight = lineHeight;
@@ -160,13 +160,13 @@ static const NSInteger kAlignmentBuffer = 5;
 
 - (void)setup {
     _lineHeight = 12;
-    self.minimumFontSize = 12;
+    self.minimumScaleFactor = 12;
     _verticalAlignment = MSLabelVerticalAlignmentMiddle;
 }
 
 - (NSArray *)stringsFromText:(NSString *)string {
     
-    if (self.lineBreakMode == (SYSTEM_VERSION_LESS_THAN(@"6.0") ? UILineBreakModeWordWrap : NSLineBreakByWordWrapping)) {
+    if (self.lineBreakMode == NSLineBreakByWordWrapping) {
         return [self stringsWithWordsWrappedFromString:string];
     }
     
@@ -182,15 +182,15 @@ static const NSInteger kAlignmentBuffer = 5;
             CGFloat stringWidth = [[line stringByAppendingFormat:@"%@", character] sizeWithFont:self.font].width;
             
             // shrink font to fit text as best as we can
-//            if(stringWidth > (self.frame.size.width - 10)) {
-//                CGFloat fontSize = self.font.pointSize;
-//                
-//                while(stringWidth > (self.frame.size.width - 10) && fontSize >= self.minimumFontSize) {
-//                    self.font = [UIFont fontWithName:self.font.fontName size:fontSize--];
-//                    _lineHeight = self.font.pointSize;
-//                    stringWidth = [[line stringByAppendingFormat:@"%@", character] sizeWithFont:self.font].width;
-//                }
-//            }
+            //            if(stringWidth > (self.frame.size.width - 10)) {
+            //                CGFloat fontSize = self.font.pointSize;
+            //
+            //                while(stringWidth > (self.frame.size.width - 10) && fontSize >= self.minimumFontSize) {
+            //                    self.font = [UIFont fontWithName:self.font.fontName size:fontSize--];
+            //                    _lineHeight = self.font.pointSize;
+            //                    stringWidth = [[line stringByAppendingFormat:@"%@", character] sizeWithFont:self.font].width;
+            //                }
+            //            }
             
             if (stringWidth <= (self.frame.size.width - 10)) {
                 line = [line stringByAppendingFormat:@"%@", character];
@@ -204,12 +204,12 @@ static const NSInteger kAlignmentBuffer = 5;
                 break;
             }
         }
-      if (self.lineBreakMode == (SYSTEM_VERSION_LESS_THAN(@"6.0") ? UILineBreakModeWordWrap : NSLineBreakByWordWrapping)) {
-        [slicedString addObject:line];
-      } else {
-        [slicedString addObject:[line stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
-      }
-      
+        if (self.lineBreakMode == NSLineBreakByWordWrapping) {
+            [slicedString addObject:line];
+        } else {
+            [slicedString addObject:[line stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+        }
+        
         [characterArray removeObjectsAtIndexes:charsToRemove];
     }
     
@@ -273,7 +273,7 @@ static const NSInteger kAlignmentBuffer = 5;
     NSString *lastWord;
     
     // Check for whole words
-     NSArray *wordArray = [string componentsSeparatedByString:@" "];
+    NSArray *wordArray = [string componentsSeparatedByString:@" "];
     lastWord = wordArray.count > 1 ? lastWord = [wordArray lastObject] : @"";
     
     return lastWord;
