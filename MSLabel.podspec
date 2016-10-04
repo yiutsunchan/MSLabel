@@ -8,4 +8,5 @@ Pod::Spec.new do |pod|
   pod.source_files = "*.{h,m}"
   pod.license      = "MIT"
   pod.source       = { :git => "https://github.com/pak0811/MSLabel.git" }
+  pod.authors      = {'Lars Anderson' => 'youremail@here.com'}
 end
